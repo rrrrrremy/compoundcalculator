@@ -1,5 +1,14 @@
 import frequencyToTimesPerYear from './frequencyToTimesPerYear';
 
+const calculateDeposit = (month, regularDeposit, depositsPerYear) => {
+  if (depositsPerYear >= 12) {
+    return regularDeposit * depositsPerYear / 12;
+  } else {
+    const monthsBetweenDeposits = 12 / depositsPerYear;
+    return (month % monthsBetweenDeposits === 1) ? regularDeposit : 0;
+  }
+};
+
 const calculateTotalValue = ({
   initialInvestment,
   annualInterestRate,
@@ -12,91 +21,70 @@ const calculateTotalValue = ({
   feeValue,
   feeType,
   feeFrequency,
-  adjustForInflation
+  compoundingFrequency
 }) => {
-  let nominalValue = initialInvestment;
-  let inflationAdjustedValue = initialInvestment;
-  const monthlyRate = (annualInterestRate / 100) / 12;
-  const monthlyInflationRate = (inflationRate / 100) / 12;
-  const totalMonths = years * 12;
+  let balance = Math.max(0, initialInvestment);
+  let inflationAdjustedBalance = balance;
   
   const depositsPerYear = frequencyToTimesPerYear(depositFrequency);
   const withdrawalsPerYear = frequencyToTimesPerYear(withdrawalFrequency);
   const feesPerYear = frequencyToTimesPerYear(feeFrequency);
+  const compoundingsPerYear = frequencyToTimesPerYear(compoundingFrequency);
 
-  const daysInYear = 365.25; // Account for leap years
-  const depositInterval = daysInYear / depositsPerYear;
-  const withdrawalInterval = daysInYear / withdrawalsPerYear;
-  const feeInterval = daysInYear / feesPerYear;
+  const monthlyInflationRate = inflationRate / 100 / 12;
+  const effectiveAnnualRate = Math.pow(1 + annualInterestRate / 100 / compoundingsPerYear, compoundingsPerYear) - 1;
+  const monthlyInterestRate = Math.pow(1 + effectiveAnnualRate, 1/12) - 1;
 
-  let daysPassed = 0;
+  const totalMonths = years * 12;
+
   let totalContributions = 0;
   let totalWithdrawals = 0;
   let totalFees = 0;
 
   for (let month = 1; month <= totalMonths; month++) {
-    let monthlyDeposit = 0;
-    let monthlyWithdrawal = 0;
-    let monthlyFee = 0;
+    // Apply deposits
+    const depositThisMonth = calculateDeposit(month, regularDeposit, depositsPerYear);
+    balance += depositThisMonth;
+    totalContributions += depositThisMonth;
 
-    // Calculate deposits, withdrawals, and fees for this month
-    for (let day = 0; day < 30.44; day++) { // Average days in a month
-      daysPassed++;
-      
-      if (Math.floor(daysPassed / depositInterval) > Math.floor((daysPassed - 1) / depositInterval)) {
-        monthlyDeposit += regularDeposit;
-        totalContributions += regularDeposit;
-      }
-      
-      if (Math.floor(daysPassed / withdrawalInterval) > Math.floor((daysPassed - 1) / withdrawalInterval)) {
-        monthlyWithdrawal += regularWithdrawal;
-        totalWithdrawals += regularWithdrawal;
-      }
-      
-      if (Math.floor(daysPassed / feeInterval) > Math.floor((daysPassed - 1) / feeInterval)) {
-        const fee = feeType === 'percentage' ? (nominalValue * feeValue / 100) : feeValue;
-        monthlyFee += fee;
-        totalFees += fee;
-      }
+    // Apply withdrawals
+    const withdrawalCount = Math.floor(month * withdrawalsPerYear / 12) - Math.floor((month - 1) * withdrawalsPerYear / 12);
+    if (balance > 0) {
+      const actualWithdrawal = Math.min(regularWithdrawal * withdrawalCount, balance);
+      balance -= actualWithdrawal;
+      totalWithdrawals += actualWithdrawal;
     }
 
-    // Apply monthly interest
-    const interestEarned = nominalValue * monthlyRate;
-    nominalValue += interestEarned;
-    inflationAdjustedValue *= (1 + monthlyRate);
-
-    // Apply deposit
-    nominalValue += monthlyDeposit;
-    inflationAdjustedValue += monthlyDeposit;
-
-    // Apply withdrawal
-    nominalValue -= monthlyWithdrawal;
-    inflationAdjustedValue -= monthlyWithdrawal;
-
-    // Apply fee
-    nominalValue -= monthlyFee;
-    inflationAdjustedValue -= monthlyFee;
-
-    // Apply inflation adjustment
-    if (adjustForInflation) {
-      inflationAdjustedValue /= (1 + monthlyInflationRate);
+    // Apply fees
+    const feeCount = Math.floor(month * feesPerYear / 12) - Math.floor((month - 1) * feesPerYear / 12);
+    if (balance > 0 && feeCount > 0) {
+      const fee = feeType === 'percentage' 
+        ? (balance * feeValue / 100) * feeCount
+        : Math.min(feeValue * feeCount, balance);
+      balance -= fee;
+      totalFees += fee;
     }
 
-    // Ensure the value doesn't go below zero
-    nominalValue = Math.max(0, nominalValue);
-    inflationAdjustedValue = Math.max(0, inflationAdjustedValue);
+    // Apply compound interest
+    balance *= (1 + monthlyInterestRate);
 
-    // If the value reaches zero, break the loop
-    if (nominalValue === 0) {
+    // Ensure balance doesn't go negative
+    balance = Math.max(0, balance);
+
+    // Adjust for inflation
+    inflationAdjustedBalance = balance / Math.pow(1 + monthlyInflationRate, month);
+
+    // If balance reaches zero, break the loop
+    if (balance === 0) {
       break;
     }
   }
 
-  const totalInterestEarned = nominalValue - initialInvestment - totalContributions + totalWithdrawals + totalFees;
+  const totalInterestEarned = balance - initialInvestment - totalContributions + totalWithdrawals + totalFees;
 
   return {
-    nominalValue,
-    inflationAdjustedValue,
+    nominalValue: balance,
+    inflationAdjustedValue: inflationAdjustedBalance,
     totalContributions,
     totalWithdrawals,
     totalFees,

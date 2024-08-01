@@ -21,6 +21,10 @@ const CompoundInterestCalculator = () => {
                 handleNumberInput={calculator1.handleNumberInput} 
                 handleChange={calculator1.handleChange}
               />
+              <div className={styles.resultsSeparator}>
+                <hr className={styles.separatorLine} />
+                <span className={styles.separatorText}>Results</span>
+              </div>
               <CalculatorResults 
                 result={calculator1.result} 
                 values={calculator1.values}
@@ -34,6 +38,10 @@ const CompoundInterestCalculator = () => {
                   handleNumberInput={calculator2.handleNumberInput} 
                   handleChange={calculator2.handleChange}
                 />
+                <div className={styles.resultsSeparator}>
+                  <hr className={styles.separatorLine} />
+                  <span className={styles.separatorText}>Results</span>
+                </div>
                 <CalculatorResults 
                   result={calculator2.result} 
                   values={calculator2.values}
@@ -49,15 +57,6 @@ const CompoundInterestCalculator = () => {
             >
               {showComparison ? 'Hide Comparison' : 'Compare Scenarios'}
             </button>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={calculator1.values.adjustForInflation}
-                onChange={calculator1.handleChange('adjustForInflation')}
-                className={styles.checkbox}
-              />
-              <span className={styles.checkboxText}>Adjust for Inflation</span>
-            </label>
           </div>
         </div>
       </div>

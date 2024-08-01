@@ -2,99 +2,224 @@
   background-color: var(--card-background);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--card-shadow);
 }
 
 .resultTitle {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   color: var(--primary-color);
   margin-bottom: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
 }
 
-.resultGrid {
+.summaryGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
 
-.resultItem {
-  background-color: rgba(255, 255, 255, 0.5);
+.summaryItem {
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
+  transition: all 0.3s ease;
 }
 
-.resultItem h4 {
-  font-size: 0.9rem;
-  color: var(--primary-color);
+.summaryItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.summaryItem h4 {
+  font-size: 1rem;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
-.totalValue {
-  font-size: 1.6rem;
-  color: var(--primary-color);
+.mainValue {
+  font-size: 1.8rem;
+  color: var(--secondary-color);
   font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
-.resultBreakdown {
-  margin-top: 2rem;
+.subValue {
+  font-size: 0.9rem;
+  color: var(--light-text-color);
 }
 
 .breakdownTitle {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  margin: 2rem 0 1rem;
+  font-weight: 600;
+}
+
+.breakdownSection {
+  margin-bottom: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.breakdownSubheading {
   font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.breakdownItem:last-child {
+  border-bottom: none;
+}
+
+.breakdownItem span:first-child {
+  color: var(--light-text-color);
+}
+
+.breakdownItem span:last-child {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.equationSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+}
+
+.equationSection h4 {
+  font-size: 1.2rem;
   color: var(--primary-color);
   margin-bottom: 1rem;
-  font-weight: 600;
-  text-align: center;
 }
 
-.breakdownChart {
-  height: 30px;
+.equation {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.equationValues {
+  font-size: 0.9rem;
+  white-space: pre-line;
+  margin-bottom: 1rem;
+  color: var(--light-text-color);
+}
+
+.equationNote {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--light-text-color);
+}
+
+.breakdownTitle {
+  font-size: 1.3rem;
+  color: #2d3748;
+  margin: 2rem 0 1rem;
+  font-weight: 600;
+}
+
+.breakdownSection {
+  margin-bottom: 1.5rem;
   background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  overflow: hidden;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.breakdownSubheading {
+  font-size: 1.1rem;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.breakdownItem {
   display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.breakdownItem:last-child {
+  border-bottom: none;
+}
+
+.breakdownItem span:first-child {
+  color: #4a5568;
+}
+
+.breakdownItem span:last-child {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.equationSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+}
+
+.equationSection h4 {
+  font-size: 1.2rem;
+  color: #2d3748;
   margin-bottom: 1rem;
 }
 
-.breakdownBar {
-  height: 100%;
-  transition: width 0.5s ease-in-out;
+.equation {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.breakdownBar.initialInvestment {
-  background-color: #4CAF50;
+.equationValues {
+  font-size: 0.9rem;
+  white-space: pre-line;
+  margin-bottom: 1rem;
 }
 
-.breakdownBar.contributions {
-  background-color: #2196F3;
-}
-
-.breakdownBar.interest {
-  background-color: #FFC107;
+.equationNote {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #4a5568;
 }
 
 .additionalInfo {
   margin-top: 2rem;
   font-size: 0.9rem;
-  color: var(--text-color);
-  text-align: center;
+  color: #4a5568;
 }
 
 .additionalInfo p {
   margin-bottom: 0.5rem;
 }
-
 @media (max-width: 600px) {
-  .resultGrid {
+  .summaryGrid,
+  .breakdownGrid {
     grid-template-columns: 1fr;
   }
 
-  .totalValue {
-    font-size: 1.4rem;
+  .mainValue {
+    font-size: 1.6rem;
   }
+
+  .chartLegend {
+    flex-direction: column;
+    align-items: center;
+  }
+
 }
