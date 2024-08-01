@@ -11,45 +11,18 @@ import {
 } from 'recharts';
 import { formatCurrency } from '../utils/formatters';
 
-const ResultChart = ({ result, values }) => {
+const ResultChart = ({ result }) => {
   const generateChartData = () => {
-    const data = [];
-    const { initialInvestment, years, regularDeposit, depositFrequency } = values;
-    const depositsPerYear = getDepositsPerYear(depositFrequency);
-    const monthlyDeposit = (regularDeposit * depositsPerYear) / 12;
-
-    let balance = initialInvestment;
-    let totalContributions = initialInvestment;
-
-    for (let year = 0; year <= years; year++) {
-      const yearlyDeposit = monthlyDeposit * 12;
-      const interestEarned = result.totalInterestEarned * (year / years);
-      balance = totalContributions + interestEarned;
-
-      data.push({
-        year,
-        balance,
-        contributions: totalContributions,
-        interest: interestEarned,
-      });
-
-      totalContributions += yearlyDeposit;
+    if (!result || !Array.isArray(result.totalContributions) || !Array.isArray(result.totalInterestEarned)) {
+      console.error("Invalid result object format");
+      return [];
     }
 
-    return data;
-  };
-
-  const getDepositsPerYear = (frequency) => {
-    const frequencyMap = {
-      'Daily': 365,
-      'Weekly': 52,
-      'Bi-Weekly': 26,
-      'Monthly': 12,
-      'Quarterly': 4,
-      'Bi-Annually': 2,
-      'Annually': 1
-    };
-    return frequencyMap[frequency] || 12;
+    return result.totalContributions.map((contribution, index) => ({
+      year: index,
+      contributions: contribution || 0,
+      interest: result.totalInterestEarned[index] || 0
+    }));
   };
 
   const formatYAxis = (value) => {
@@ -65,7 +38,7 @@ const ResultChart = ({ result, values }) => {
     return value.toFixed(0);
   };
 
-  const chartData = generateChartData();
+  const chartData = generateChartData().filter(d => !isNaN(d.contributions) && !isNaN(d.interest));
 
   return (
     <div style={{ width: '100%', height: 400, marginTop: '2rem' }}>
