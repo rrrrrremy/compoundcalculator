@@ -1,0 +1,143 @@
+.calculatorContainer {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--card-background);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.titleContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.titleContainer h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--primary-color);
+  display: inline-block;
+}
+
+.mainContent {
+  display: flex;
+  gap: 2rem;
+}
+
+.calculatorWrapper {
+  flex: 1;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+.calculator {
+  flex: 1;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.calculator h2 {
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.sideOptions {
+  width: 250px;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.sideOptions h3 {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #fff;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+}
+
+.actionButton:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(52, 152, 219, 0.3);
+}
+
+.actionButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+.actionButton input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 1200px) {
+  .mainContent {
+    flex-direction: column;
+  }
+
+  .sideOptions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sideOptions h3 {
+    width: 100%;
+  }
+
+  .actionButton {
+    width: calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .calculatorContainer {
+    padding: 1.5rem;
+  }
+
+  .titleContainer h1 {
+    font-size: 2rem;
+  }
+
+  .sideOptions {
+    flex-direction: column;
+  }
+
+  .actionButton {
+    width: 100%;
+  }
+}

@@ -1,0 +1,99 @@
+.result {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.result h3 {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.resultGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.resultItem {
+  background-color: var(--background-color);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.resultItem h4 {
+  font-size: 0.9rem;
+  color: var(--light-text-color);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.totalValue {
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.resultBreakdown {
+  margin-top: 2rem;
+}
+
+.resultBreakdown h4 {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.breakdownChart {
+  height: 30px;
+  background-color: #f1f8ff;
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.breakdownBar {
+  height: 100%;
+  transition: width 0.5s ease-in-out;
+}
+
+.breakdownBar.initialInvestment {
+  background-color: var(--primary-color);
+}
+
+.breakdownBar.contributions {
+  background-color: var(--secondary-color);
+}
+
+.breakdownBar.interest {
+  background-color: #f1c40f;
+}
+
+.additionalInfo {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: var(--light-text-color);
+}
+
+.additionalInfo p {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .resultGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .totalValue {
+    font-size: 1.4rem;
+  }
+}
