@@ -12,7 +12,7 @@ const CompoundInterestCalculator = () => {
   return (
     <div className={styles.calculatorContainer}>
       <div className={styles.titleContainer}>
-        <h1>Compound Interest Calculator</h1>
+        <h1>Best Compound Interest Calculator</h1>
       </div>
       <div className={styles.mainContent}>
         <div className={styles.calculatorWrapper}>
