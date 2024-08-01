@@ -17,7 +17,7 @@ const CalculatorResults = ({ result, values }) => {
 
   return (
     <div className={styles.result}>
-      <h3>Investment Summary</h3>
+      <h3 className={styles.resultTitle}>Investment Summary</h3>
       <div className={styles.resultGrid}>
         <div className={styles.resultItem}>
           <h4>Final Balance</h4>
@@ -42,7 +42,7 @@ const CalculatorResults = ({ result, values }) => {
           <p>{formatCurrency(totalWithdrawals)}</p>
         </div>
         <div className={styles.resultItem}>
-          <h4>Total Fees ({values.feeType === 'percentage' ? '%' : 'Fixed'})</h4>
+          <h4>Total Fees</h4>
           <p>{formatCurrency(totalFees)}</p>
         </div>
         <div className={styles.resultItem}>
@@ -51,7 +51,7 @@ const CalculatorResults = ({ result, values }) => {
         </div>
       </div>
       <div className={styles.resultBreakdown}>
-        <h4>Final Balance Breakdown</h4>
+        <h4 className={styles.breakdownTitle}>Final Balance Breakdown</h4>
         <div className={styles.breakdownChart}>
           <div 
             className={`${styles.breakdownBar} ${styles.initialInvestment}`}
