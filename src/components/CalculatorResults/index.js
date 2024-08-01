@@ -10,7 +10,8 @@ const CalculatorResults = ({ result, values }) => {
     totalContributions,
     totalWithdrawals,
     totalFees,
-    totalInterestEarned
+    totalInterestEarned,
+    yearlyData
   } = result;
 
   const {
@@ -99,7 +100,7 @@ const CalculatorResults = ({ result, values }) => {
         </div>
       </div>
       
-      <ResultChart result={result} values={values} />
+      <ResultChart result={{ yearlyData }} />
       
       <div className={styles.equationSection}>
         <h4>Compound Interest Equation</h4>

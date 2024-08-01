@@ -19,12 +19,13 @@ const calculateTotalValue = ({
       isNaN(years) || isNaN(regularDeposit) || isNaN(regularWithdrawal) || isNaN(feeValue)) {
     console.error("Invalid input values");
     return {
-      nominalValue: NaN,
-      inflationAdjustedValue: NaN,
-      totalContributions: NaN,
-      totalWithdrawals: NaN,
-      totalFees: NaN,
-      totalInterestEarned: NaN
+      nominalValue: 0,
+      inflationAdjustedValue: 0,
+      totalContributions: 0,
+      totalWithdrawals: 0,
+      totalFees: 0,
+      totalInterestEarned: 0,
+      yearlyData: []
     };
   }
 
@@ -48,8 +49,18 @@ const calculateTotalValue = ({
   let totalContributions = 0;
   let totalWithdrawals = 0;
   let totalFees = 0;
+  let totalInterestEarned = 0;
+
+  let yearlyData = [{
+    balance: initialInvestment,
+    totalContributions: 0,
+    totalInterestEarned: 0
+  }];
 
   for (let month = 1; month <= totalMonths; month++) {
+    const yearStart = month % 12 === 1;
+    const yearEnd = month % 12 === 0 || month === totalMonths;
+    
     // Calculate the number of times deposits should be applied per month
     const depositsThisMonth = (depositsPerYear / 12);
     if (depositsThisMonth > 0) {
@@ -87,7 +98,9 @@ const calculateTotalValue = ({
 
     // Apply compound interest
     if (!isNaN(monthlyInterestRate) && monthlyInterestRate > 0) {
-      balance *= (1 + monthlyInterestRate);
+      const interestEarned = balance * monthlyInterestRate;
+      balance += interestEarned;
+      totalInterestEarned += interestEarned;
     }
 
     // Ensure balance doesn't go negative
@@ -95,9 +108,15 @@ const calculateTotalValue = ({
 
     // Adjust for inflation
     inflationAdjustedBalance = balance / Math.pow(1 + monthlyInflationRate, month);
-  }
 
-  const totalInterestEarned = balance - initialInvestment - totalContributions + totalWithdrawals + totalFees;
+    if (yearEnd) {
+      yearlyData.push({
+        balance: balance,
+        totalContributions: totalContributions,
+        totalInterestEarned: totalInterestEarned
+      });
+    }
+  }
 
   return {
     nominalValue: balance,
@@ -105,7 +124,8 @@ const calculateTotalValue = ({
     totalContributions,
     totalWithdrawals,
     totalFees,
-    totalInterestEarned
+    totalInterestEarned,
+    yearlyData
   };
 };
 

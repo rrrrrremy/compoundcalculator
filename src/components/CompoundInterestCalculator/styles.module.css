@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background-color: #e0e0e0; /* Light gray background */
+  background-color: #e0e0e0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
 }
 
@@ -18,6 +18,7 @@
   width: 100%;
   max-width: 1200px;
 }
+
 .resultsSeparator {
   position: relative;
   text-align: center;
@@ -120,41 +121,69 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
-.checkboxLabel {
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  justify-content: center;
   align-items: center;
-  color: #4a5568;
-  font-size: 0.9rem;
-  cursor: pointer;
+  z-index: 1000;
 }
 
-.checkbox {
-  margin-right: 0.5rem;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #4a5568;
-  border-radius: 4px;
-  outline: none;
-  transition: all 0.3s ease;
+.modalContent {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.checkbox:checked {
-  background-color: #4a5568;
-  border-color: #4a5568;
+.modalContent h2 {
+  color: #2d3748;
+  margin-bottom: 1rem;
 }
 
-.checkbox:checked::after {
-  content: '\2714';
+.modalContent p, .modalContent ul {
+  margin-bottom: 1rem;
+}
+
+.modalContent ul {
+  padding-left: 1.5rem;
+}
+
+.closeButton {
   display: block;
-  text-align: center;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #4a5568;
   color: white;
-  font-size: 14px;
-  line-height: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
-.checkboxText {
-  flex: 1;
+.closeButton:hover {
+  background-color: #2d3748;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
 }
 
 @media (max-width: 1200px) {
@@ -175,7 +204,7 @@
   }
 
   .actionButton {
-    width: calc(50% - 0.5rem);
+    width: calc(33.33% - 0.5rem);
   }
 }
 
@@ -195,6 +224,4 @@
   .actionButton {
     width: 100%;
   }
-
-
 }

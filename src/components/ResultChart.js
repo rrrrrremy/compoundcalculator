@@ -13,15 +13,16 @@ import { formatCurrency } from '../utils/formatters';
 
 const ResultChart = ({ result }) => {
   const generateChartData = () => {
-    if (!result || !Array.isArray(result.totalContributions) || !Array.isArray(result.totalInterestEarned)) {
+    if (!result || !result.yearlyData || !Array.isArray(result.yearlyData)) {
       console.error("Invalid result object format");
       return [];
     }
 
-    return result.totalContributions.map((contribution, index) => ({
-      year: index,
-      contributions: contribution || 0,
-      interest: result.totalInterestEarned[index] || 0
+    return result.yearlyData.map((yearData, index) => ({
+      year: index + 1,  // Adjust year to start from 1
+      balance: yearData.balance || 0,
+      contributions: yearData.totalContributions || 0,
+      interest: yearData.totalInterestEarned || 0
     }));
   };
 
@@ -38,7 +39,11 @@ const ResultChart = ({ result }) => {
     return value.toFixed(0);
   };
 
-  const chartData = generateChartData().filter(d => !isNaN(d.contributions) && !isNaN(d.interest));
+  const chartData = generateChartData();
+
+  if (chartData.length === 0) {
+    return <div>No data available for chart</div>;
+  }
 
   return (
     <div style={{ width: '100%', height: 400, marginTop: '2rem' }}>
@@ -59,7 +64,7 @@ const ResultChart = ({ result }) => {
           />
           <Tooltip
             formatter={(value, name) => [formatCurrency(value), name]}
-            labelFormatter={(label) => `Year ${label}`}
+            labelFormatter={(label) => `Year ${label}`}  // This now correctly shows "Year 1" for the first year
           />
           <Legend />
           <Area
@@ -77,6 +82,13 @@ const ResultChart = ({ result }) => {
             stroke="#3498db"
             fill="#3498db"
             name="Interest"
+          />
+          <Area
+            type="monotone"
+            dataKey="balance"
+            stroke="#e74c3c"
+            fill="#e74c3c"
+            name="Total Balance"
           />
         </AreaChart>
       </ResponsiveContainer>
