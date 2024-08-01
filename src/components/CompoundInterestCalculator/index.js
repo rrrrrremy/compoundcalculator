@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import CalculatorInputs from '../CalculatorInputs';
 import CalculatorResults from '../CalculatorResults';
 import useCalculator from '../../hooks/useCalculator';
-import usePDFExport from '../../hooks/usePDFExport';
 import styles from './styles.module.css';
 
 const CompoundInterestCalculator = () => {
@@ -10,7 +9,6 @@ const CompoundInterestCalculator = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const calculator1 = useCalculator();
   const calculator2 = useCalculator();
-  const { targetRef, exportToPDF, isExporting, exportError } = usePDFExport('compound-interest-results.pdf');
 
   const InfoModal = () => (
     <div className={styles.modalOverlay} onClick={() => setShowInfoModal(false)}>
@@ -35,7 +33,7 @@ const CompoundInterestCalculator = () => {
       <div className={styles.glassPane}>
         <h1 className={styles.title}>Compound Interest Calculator</h1>
         <div className={styles.mainContent}>
-          <div className={styles.calculatorWrapper} ref={targetRef}>
+          <div className={styles.calculatorWrapper}>
             <div className={styles.calculator}>
               <CalculatorInputs 
                 values={calculator1.values} 
@@ -84,14 +82,6 @@ const CompoundInterestCalculator = () => {
             >
               Info
             </button>
-            <button 
-              className={styles.actionButton}
-              onClick={exportToPDF}
-              disabled={isExporting}
-            >
-              {isExporting ? 'Exporting...' : 'Export PDF'}
-            </button>
-            {exportError && <p className={styles.errorMessage}>{exportError}</p>}
           </div>
         </div>
       </div>
