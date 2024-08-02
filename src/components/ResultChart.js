@@ -10,6 +10,7 @@ import {
   Legend
 } from 'recharts';
 import { formatCurrency } from '../utils/formatters';
+import styles from './ResultChart.module.css';
 
 const ResultChart = ({ result }) => {
   const generateChartData = () => {
@@ -46,53 +47,54 @@ const ResultChart = ({ result }) => {
   }
 
   return (
-    <div style={{ width: '100%', height: 400, marginTop: '2rem' }}>
-      <h3 style={{ textAlign: 'center', marginBottom: '1rem', color: 'var(--primary-color)' }}>Investment Growth Over Time</h3>
-      <ResponsiveContainer>
-        <AreaChart
-          data={chartData}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis 
-            dataKey="year"
-            label={{ value: 'Years', position: 'insideBottom', offset: -5 }}
-            // Remove any defaultProps usage
-          />
-          <YAxis 
-            tickFormatter={formatYAxis}
-            label={{ value: 'Amount', angle: -90, position: 'insideLeft' }}
-          />
-          <Tooltip
-            formatter={(value, name) => [formatCurrency(value), name]}
-            labelFormatter={(label) => `Year ${label}`}
-          />
-          <Legend />
-          <Area
-            type="monotone"
-            dataKey="contributions"
-            stackId="1"
-            stroke="#2ecc71"
-            fill="#2ecc71"
-            name="Contributions"
-          />
-          <Area
-            type="monotone"
-            dataKey="interest"
-            stackId="1"
-            stroke="#3498db"
-            fill="#3498db"
-            name="Interest"
-          />
-          <Area
-            type="monotone"
-            dataKey="balance"
-            stroke="#e74c3c"
-            fill="#e74c3c"
-            name="Total Balance"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+    <div className={styles.chartContainer}>
+      <h3 className={styles.chartTitle}>Investment Growth Over Time</h3>
+      <div className={styles.chartWrapper}>
+        <ResponsiveContainer width="100%" height={400}>
+          <AreaChart
+            data={chartData}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+              dataKey="year"
+              label={{ value: 'Years', position: 'insideBottom', offset: -5 }}
+            />
+            <YAxis 
+              tickFormatter={formatYAxis}
+              label={{ value: 'Amount', angle: -90, position: 'insideLeft' }}
+            />
+            <Tooltip
+              formatter={(value, name) => [formatCurrency(value), name]}
+              labelFormatter={(label) => `Year ${label}`}
+            />
+            <Legend verticalAlign="bottom" height={36} />
+            <Area
+              type="monotone"
+              dataKey="contributions"
+              stackId="1"
+              stroke="#2ecc71"
+              fill="#2ecc71"
+              name="Contributions"
+            />
+            <Area
+              type="monotone"
+              dataKey="interest"
+              stackId="1"
+              stroke="#3498db"
+              fill="#3498db"
+              name="Interest"
+            />
+            <Area
+              type="monotone"
+              dataKey="balance"
+              stroke="#e74c3c"
+              fill="#e74c3c"
+              name="Total Balance"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };

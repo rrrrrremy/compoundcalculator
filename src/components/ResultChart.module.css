@@ -1,0 +1,40 @@
+.chartContainer {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chartTitle {
+  font-size: 1.2rem;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.chartWrapper {
+  margin-bottom: 1.5rem;
+}
+
+/* Styling for Recharts legend */
+:global(.recharts-default-legend) {
+  margin-top: 1rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+}
+
+:global(.recharts-legend-item) {
+  margin: 0 1rem !important;
+}
+
+@media (max-width: 768px) {
+  .chartContainer {
+    padding: 0.5rem;
+  }
+
+  .chartTitle {
+    font-size: 1rem;
+  }
+}
