@@ -19,7 +19,7 @@ const ResultChart = ({ result }) => {
     }
 
     return result.yearlyData.map((yearData, index) => ({
-      year: index + 1,  // Adjust year to start from 1
+      year: index + 1,
       balance: yearData.balance || 0,
       contributions: yearData.totalContributions || 0,
       interest: yearData.totalInterestEarned || 0
@@ -57,6 +57,7 @@ const ResultChart = ({ result }) => {
           <XAxis 
             dataKey="year"
             label={{ value: 'Years', position: 'insideBottom', offset: -5 }}
+            // Remove any defaultProps usage
           />
           <YAxis 
             tickFormatter={formatYAxis}
@@ -64,7 +65,7 @@ const ResultChart = ({ result }) => {
           />
           <Tooltip
             formatter={(value, name) => [formatCurrency(value), name]}
-            labelFormatter={(label) => `Year ${label}`}  // This now correctly shows "Year 1" for the first year
+            labelFormatter={(label) => `Year ${label}`}
           />
           <Legend />
           <Area
