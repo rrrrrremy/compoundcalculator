@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import CalculatorInputs from '../CalculatorInputs';
 import CalculatorResults from '../CalculatorResults';
 import useCalculator from '../../hooks/useCalculator';
+import { formatCurrency } from '../../utils/formatters';
 import styles from './styles.module.css';
 
 const MAX_SCENARIOS = 5; // Maximum number of scenarios
@@ -92,6 +93,41 @@ const CompoundInterestCalculator = () => {
     </div>
   );
 
+  const ComparisonSummary = () => {
+    if (state.activeScenarios < 2) return null;
+
+    const baseScenario = calculators[0].result;
+    return (
+      <div className={styles.comparisonSummary}>
+        <h3>Comparison Summary</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Final Balance</th>
+              <th>Difference</th>
+              <th>% Difference</th>
+            </tr>
+          </thead>
+          <tbody>
+            {calculators.slice(0, state.activeScenarios).map((calculator, index) => {
+              const diff = calculator.result.nominalValue - baseScenario.nominalValue;
+              const percentDiff = (diff / baseScenario.nominalValue) * 100;
+              return (
+                <tr key={index}>
+                  <td>Scenario {index + 1}</td>
+                  <td>{formatCurrency(calculator.result.nominalValue)}</td>
+                  <td>{formatCurrency(diff)}</td>
+                  <td>{percentDiff.toFixed(2)}%</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   return (
     <div className={styles.calculatorContainer}>
       <div className={styles.glassPane}>
@@ -123,6 +159,7 @@ const CompoundInterestCalculator = () => {
             </button>
           </div>
         </div>
+        <ComparisonSummary />
       </div>
       {state.showInfoModal && <InfoModal />}
     </div>

@@ -189,6 +189,52 @@
   background-color: #2d3748;
 }
 
+.comparisonSummary {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comparisonSummary h3 {
+  font-size: 1.4rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.comparisonSummary table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comparisonSummary th, .comparisonSummary td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.comparisonSummary th {
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.comparisonSummary tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .comparisonSummary {
+    overflow-x: auto;
+  }
+  
+  .comparisonSummary table {
+    min-width: 500px;
+  }
+}
+
+
 @media (max-width: 1200px) {
   .mainContent {
     flex-direction: column;
