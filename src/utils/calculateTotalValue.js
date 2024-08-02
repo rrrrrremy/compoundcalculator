@@ -58,7 +58,6 @@ const calculateTotalValue = ({
   }];
 
   for (let month = 1; month <= totalMonths; month++) {
-    const yearStart = month % 12 === 1;
     const yearEnd = month % 12 === 0 || month === totalMonths;
     
     // Calculate the number of times deposits should be applied per month
